@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect';
 import { getUsers } from '../../../actions/actions'
+import { selectUsersData } from '../../../selectors/selectors'
 
-const HomePage = ({
+
+
+const AllProducts = ({
   users,
   getUsers,
 }) => {
@@ -14,7 +18,7 @@ const HomePage = ({
   })
   
 	return <div>
-		<h1>Home</h1>
+		<h1>All Products</h1>
 		<h2>Landing page</h2>
     <ul>
       {users && users.map((user, index) => 
@@ -24,9 +28,9 @@ const HomePage = ({
 	</div>
 }
 
-const mapStateToProps = state => ({
-  users: state.rootReducer.users
-},console.log(state.rootReducer.toJS()))
+const mapStateToProps = createStructuredSelector({
+    users:selectUsersData()
+});
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => {
@@ -37,4 +41,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomePage)
+)(AllProducts)
