@@ -9,7 +9,10 @@ import {
     getUsersFailure,
     login,
     login_success,
-    login_faliure
+    login_faliure,
+    getAllProducts,
+    getAllProducts_success,
+    getAllProducts_faliure,
 } from '../actions/actions';
 import {
     USERS_GET,
@@ -17,7 +20,10 @@ import {
     USERS_FAILURE,
     LOGIN,
     LOGIN_SUCCESS,
-    LOGIN_FALIURE
+    LOGIN_FALIURE,
+    ALLPRODUCTS,
+    ALLPRODUCTS_SUCCESS,
+    ALLPRODUCTS_FALIURE,
 } from '../constants/constants';
 
 //import * as routes from '../constants/routes'
@@ -34,19 +40,35 @@ function *getUsersSaga () {
 
 function* loginFunc(action) {
     try {
-        console.log("loginFuncAction")
-        console.log(action)
-        // const response = yield axios.post('https://locadtestherokuapi.herokuapp.com/api/users/login', action.payload.data);
-        // console.log(response.data)
-        // if (response.status === 200) {
-        //     yield put(login_success(response.data));
-        // }
+        const response = yield axios.post('https://locadtestherokuapi.herokuapp.com/api/users/login', action.payload);
+        if (response.status === 200) {
+            let token = (response.data)?response.data.token.split(" "):null
+            token?localStorage.setItem('token_locad', token[1]):null
+            yield put(login_success(response.data));
+        }
     } catch (err) {
         console.log(err);
         yield put(login_faliure(err));
     }
 }
 
+function* getAllProductFunc(action) {
+    console.log("dskjhfkjhvkdfjhvdjkh")
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token_locad')}` }
+        };
+    try{
+        const response = yield axios.get('https://locadtestherokuapi.herokuapp.com/api/products/allProducts',config)
+        console.log("all products=======================>")
+        console.log(response.data)
+        if (response.status === 200) {
+            yield put(getAllProducts_success(response.data));
+        }
+    }catch(err){
+        console.log(err)
+        yield put(getAllProducts_faliure(err))
+    }
+}
 
 function* usersSagas () {
   yield takeLatest(USERS_GET, getUsersSaga);
@@ -56,11 +78,15 @@ function* loginSaga () {
   yield takeLatest(LOGIN, loginFunc);
 }
 
+function* allProductsSaga () {
+  yield takeLatest(ALLPRODUCTS, getAllProductFunc);
+}
 
 
 export default function* rootSaga() {
   yield all([
     usersSagas(),
-    loginSaga()
+    loginSaga(),
+    allProductsSaga()
   ])
 }

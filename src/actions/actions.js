@@ -5,6 +5,9 @@ import {
     LOGIN,
     LOGIN_SUCCESS,
     LOGIN_FALIURE,
+    ALLPRODUCTS,
+    ALLPRODUCTS_SUCCESS,
+    ALLPRODUCTS_FALIURE,
 } from '../constants/constants';
 
 
@@ -22,13 +25,10 @@ export const getUsersFailure = error => ({
   error
 })
 
-export const login = data =>{
-  console.log(data)
-  console.log("gchgjhdgj")
-return{
+export const login = data =>({
 	type:LOGIN,
-	payload:{data}
-}}
+	payload:data
+})
 
 export const login_success = (token) =>({
 	type:LOGIN_SUCCESS,
@@ -37,4 +37,17 @@ export const login_success = (token) =>({
 export const login_faliure = (error) =>({
 	type:LOGIN_FALIURE,
 	payload:error
+})
+
+export const getAllProducts = () =>({
+  type:ALLPRODUCTS,
+})
+
+export const getAllProducts_success = (allProducts) =>({
+  type:ALLPRODUCTS_SUCCESS,
+  allProducts
+})
+export const getAllProducts_faliure = (error) =>({
+  type:ALLPRODUCTS_FALIURE,
+  error
 })

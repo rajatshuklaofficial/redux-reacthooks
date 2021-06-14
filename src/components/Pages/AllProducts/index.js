@@ -1,40 +1,45 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
-import { getUsers } from '../../../actions/actions'
-import { selectUsersData } from '../../../selectors/selectors'
+import { getUsers, getAllProducts } from '../../../actions/actions'
+import { selectUsersData, selectProductsData } from '../../../selectors/selectors'
 
 
 
 const AllProducts = ({
-  users,
-  getUsers,
+  allProducts,
+  getAllProducts,
 }) => {
-  console.log(users)
+  console.log(allProducts)
   useEffect(() => {
-    if(!users) {
-      getUsers()
+    if (!allProducts) {
+      getAllProducts()
     }
+    console.log(allProducts)
   })
   
 	return <div>
 		<h1>All Products</h1>
-		<h2>Landing page</h2>
+		<h2>Product page</h2>
     <ul>
-      {users && users.map((user, index) => 
-        <li key={index}>{user.name}</li>
+      {allProducts && allProducts.allProducts.map((product, index) => 
+        <li key={index}>{product.productName}</li>
       )}
     </ul>
 	</div>
 }
 
 const mapStateToProps = createStructuredSelector({
-    users:selectUsersData()
+    users:selectUsersData(),
+    allProducts:selectProductsData()
 });
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => {
     return dispatch(getUsers())
+  },
+  getAllProducts:() =>{
+    return dispatch(getAllProducts())
   }
 })
 

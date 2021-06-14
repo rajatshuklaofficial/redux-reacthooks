@@ -14,6 +14,9 @@ import {
     login,
     login_success,
     login_faliure,
+    getAllProducts,
+    getAllProducts_success,
+    getAllProducts_faliure
 } from '../actions/actions';
 
 import {
@@ -22,12 +25,15 @@ import {
     USERS_FAILURE,
     LOGIN,
     LOGIN_SUCCESS,
-    LOGIN_FALIURE
+    LOGIN_FALIURE,
+    ALLPRODUCTS,
+    ALLPRODUCTS_SUCCESS,
+    ALLPRODUCTS_FALIURE,
 } from '../constants/constants';
 
 const initialState = fromJS({
   users:null,
-  token:null
+  allProducts:null
 });
 
 const rootReducer = (state = initialState , action) => {
@@ -36,8 +42,8 @@ const rootReducer = (state = initialState , action) => {
   switch (action.type) {
     case USERS_SUCCESS:
       return state.set('users', fromJS(action.users));
-    // case LOGIN:
-    //   return state.set('token',fromJS(action.payload.data));
+    case ALLPRODUCTS_SUCCESS:
+      return state.set('allProducts',fromJS(action.allProducts));
     default:
       return state
   }
